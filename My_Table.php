@@ -520,16 +520,16 @@ class MY_Table extends CI_Table {
 
 		$this->temp = $this->_default_template();
 		foreach (array('table_open',
-			'thead_open', 			'thead_close',
-			'tfoot_open',			'tfoot_close',
-			'heading_row_start', 			'heading_row_end', 			'heading_cell_start', 			'heading_cell_end',
-			'footer_row_start', 'footer_row_end', 'footer_cell_start', 'footer_cell_end',
-			'tbody_open', 'tbody_close',
-			'row_start', 'row_end',
-			'cell_start', 'cell_end',
-			'row_alt_start', 'row_alt_end',
-			'cell_alt_start', 'cell_alt_end',
-			'table_close') as $val)
+	'thead_open', 'thead_close',
+	'tfoot_open', 'tfoot_close',
+	'heading_row_start', 'heading_row_end', 'heading_cell_start', 'heading_cell_end',
+	'footer_row_start', 'footer_row_end', 'footer_cell_start', 'footer_cell_end',
+	'tbody_open', 'tbody_close',
+	'row_start', 'row_end',
+	'cell_start', 'cell_end',
+	'row_alt_start', 'row_alt_end',
+	'cell_alt_start', 'cell_alt_end',
+	'table_close') as $val)
 		{
 			if (!isset($this->template[$val]))
 			{
