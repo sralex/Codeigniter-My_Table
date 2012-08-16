@@ -103,7 +103,7 @@ class MY_Table extends CI_Table {
 	function set_footer()
 	{
 		$args = func_get_args();
-		$this->footer = (is_array($args[0])) ? $args[0] : $args;
+		$this->footer = $this->_prep_args($args);
 	}
 
 	// --------------------------------------------------------------------
@@ -327,8 +327,7 @@ class MY_Table extends CI_Table {
 			$out .= $this->template['thead_close'];
 			$out .= $this->newline;
 		}
-
-		// Is there a table footer to display?
+		// is there any table footers to display?
 		if (count($this->footer) > 0)
 		{
 			$out .= $this->template['tfoot_open'];
@@ -338,8 +337,18 @@ class MY_Table extends CI_Table {
 
 			foreach ($this->footer as $footer)
 			{
-				$out .= $this->template['footer_cell_start'];
-				$out .= $footer;
+				$temp = $this->template['footer_cell_start'];
+
+				foreach ($footer as $key => $val)
+				{
+					if ($key != 'data')
+					{
+						$temp = str_replace('<th', "<th $key='$val'", $temp);
+					}
+				}
+
+				$out .= $temp;
+				$out .= isset($footer['data']) ? $footer['data'] : '';
 				$out .= $this->template['footer_cell_end'];
 			}
 
@@ -520,16 +529,16 @@ class MY_Table extends CI_Table {
 
 		$this->temp = $this->_default_template();
 		foreach (array('table_open',
-	'thead_open', 'thead_close',
-	'tfoot_open', 'tfoot_close',
-	'heading_row_start', 'heading_row_end', 'heading_cell_start', 'heading_cell_end',
-	'footer_row_start', 'footer_row_end', 'footer_cell_start', 'footer_cell_end',
-	'tbody_open', 'tbody_close',
-	'row_start', 'row_end',
-	'cell_start', 'cell_end',
-	'row_alt_start', 'row_alt_end',
-	'cell_alt_start', 'cell_alt_end',
-	'table_close') as $val)
+			'thead_open', 			'thead_close',
+			'tfoot_open',			'tfoot_close',
+			'heading_row_start', 			'heading_row_end', 			'heading_cell_start', 			'heading_cell_end',
+			'footer_row_start', 'footer_row_end', 'footer_cell_start', 'footer_cell_end',
+			'tbody_open', 'tbody_close',
+			'row_start', 'row_end',
+			'cell_start', 'cell_end',
+			'row_alt_start', 'row_alt_end',
+			'cell_alt_start', 'cell_alt_end',
+			'table_close') as $val)
 		{
 			if (!isset($this->template[$val]))
 			{
